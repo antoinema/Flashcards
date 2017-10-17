@@ -1,4 +1,4 @@
-import { ADD_DECK, ADD_CARD } from '../actions'
+import { NEW_DECK, ADD_CARD } from '../actions'
 import { combineReducers } from 'redux'
 
 /* {
@@ -21,20 +21,24 @@ questionsById: {
 }
   */
 
-const testState = {
-  title: 'Deck Title',
-  questions: []
-}
-
-function decks(state = testState, action) {
+function decks(state = {}, action) {
   switch (action.type) {
-    case ADD_DECK:
+    case NEW_DECK:
       return {
         ...state,
         [action.deckId]: action.deck
       }
     case ADD_CARD:
       return addCard(state, action)
+    default:
+      return state
+  }
+}
+
+function allDecksId(state = [], action) {
+  switch (action.type) {
+    case NEW_DECK:
+      return state.concat(action.deckId)
     default:
       return state
   }
@@ -66,7 +70,8 @@ function cards(state = {}, action) {
 
 const rootReducer = combineReducers({
   decks,
-  cards
+  cards,
+  allDecksId
 })
 
 export default rootReducer
