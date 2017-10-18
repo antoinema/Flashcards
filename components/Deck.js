@@ -4,12 +4,22 @@ import { View, StyleSheet, ScrollView } from 'react-native'
 import { connect } from 'react-redux'
 import { getDeck } from '../selectors'
 import { Constants } from 'expo'
+import PropTypes from 'prop-types'
 
 const TitleHeader = props => {
   return <Text style={styles.title}>{props.title}</Text>
 }
 
+TitleHeader.propTypes = {
+  title: PropTypes.string.isRequired
+}
+
 class Deck extends Component {
+  static propTypes = {
+    navigation: PropTypes.object.isRequired,
+    deck: PropTypes.object.isRequired
+  }
+
   render() {
     const { navigation } = this.props
     return (

@@ -6,7 +6,5 @@ export const getCardForDeck = (state, deckId) => {
 }
 
 export const getDeck = (state, deckId) => {
-  console.log('deckId')
-  console.log(deckId)
   return state.decks[deckId]
 }

@@ -8,6 +8,12 @@ import { Constants } from 'expo'
 import { List, ListItem } from 'react-native-elements'
 
 class DeckListItem extends Component {
+  static propTypes = {
+    onPress: PropTypes.func.isRequired,
+    id: PropTypes.string.isRequired,
+    item: PropTypes.object.isRequired
+  }
+
   _onPress = () => {
     this.props.onPress(this.props.id)
   }
