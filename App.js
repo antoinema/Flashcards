@@ -3,9 +3,11 @@ import Decks from './components/Decks'
 import Deck from './components/Deck'
 import CreateDeck from './components/CreateDeck'
 
-import store from './store'
+import persistStore from './store'
 import { Provider } from 'react-redux'
 import { StackNavigator } from 'react-navigation'
+import { PersistGate } from 'redux-persist/lib/integration/react'
+import Loading from './components/Loading'
 
 const DecksNavigator = StackNavigator(
   {
@@ -31,12 +33,14 @@ const AppRoot = StackNavigator(
 export default class App extends React.Component {
   render() {
     return (
-      <Provider store={store}>
-        <AppRoot
-          ref={nav => {
-            this.navigator = nav
-          }}
-        />
+      <Provider store={persistStore.store}>
+        <PersistGate persistor={persistStore.persistor} loading={<Loading />}>
+          <AppRoot
+            ref={nav => {
+              this.navigator = nav
+            }}
+          />
+        </PersistGate>
       </Provider>
     )
   }

@@ -1,13 +1,15 @@
 import React, { Component } from 'react'
-import { View, Button } from 'react-native'
+import { View, StyleSheet } from 'react-native'
 import {
   FormLabel,
   FormInput,
-  FormValidationMessage
+  FormValidationMessage,
+  Header
 } from 'react-native-elements'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { addNewDeck } from '../actions'
+import { Constants } from 'expo'
 
 class CreateDeck extends Component {
   state = { error: false, title: '' }
@@ -18,18 +20,6 @@ class CreateDeck extends Component {
   }
 
   handleChangeText = text => this.setState({ error: false, title: text })
-  static navigationOptions = ({ navigation }) => {
-    const { params = {} } = navigation.state
-    return {
-      title: 'Add New Deck',
-      headerRight: <Button title="Save" onPress={() => params.handleSave()} />,
-      headerLeft: <Button title="Cancel" onPress={() => navigation.goBack()} />
-    }
-  }
-  componentDidMount() {
-    // https://github.com/react-community/react-navigation/issues/145
-    this.props.navigation.setParams({ handleSave: this._saveDetails })
-  }
   _saveDetails = () => {
     const { navigation, onSaveNewDeck } = this.props
     if (this.state.title !== '') {
@@ -44,20 +34,49 @@ class CreateDeck extends Component {
   }
 
   render() {
+    const { navigation } = this.props
     return (
-      <View>
-        <FormLabel>Name</FormLabel>
-        <FormInput
-          onChangeText={this.handleChangeText}
-          shake={!this.state.error ? false : true}
+      <View style={styles.container}>
+        <Header
+          leftComponent={{
+            icon: 'cancel',
+            color: '#fff',
+            underlayColor: '#324C66',
+            onPress: () => navigation.goBack()
+          }}
+          centerComponent={{ text: 'New Deck', style: { color: '#fff' } }}
+          rightComponent={{
+            icon: 'check',
+            color: '#fff',
+            underlayColor: '#324C66',
+            onPress: () => this._saveDetails()
+          }}
+          backgroundColor={'#324C66'}
         />
-        {this.state.error && (
-          <FormValidationMessage>Title cannot be empty</FormValidationMessage>
-        )}
+        <View style={styles.body}>
+          <FormLabel>Name</FormLabel>
+          <FormInput
+            onChangeText={this.handleChangeText}
+            shake={!this.state.error ? false : true}
+          />
+          {this.state.error && (
+            <FormValidationMessage>Title cannot be empty</FormValidationMessage>
+          )}
+        </View>
       </View>
     )
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    paddingTop: Constants.statusBarHeight,
+    backgroundColor: '#ecf0f1'
+  },
+  body: {
+    marginTop: 53
+  }
+})
 const mapDispatchToProps = dispatch => {
   return {
     onSaveNewDeck: data => {

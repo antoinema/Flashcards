@@ -1,8 +1,11 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { getAllDecks } from '../selectors'
-import { FlatList, Text, Button } from 'react-native'
+import { FlatList, Text, Button, View, StyleSheet } from 'react-native'
+import { Header } from 'react-native-elements'
 import { connect } from 'react-redux'
+import { Constants } from 'expo'
+import { List, ListItem } from 'react-native-elements'
 
 class DeckListItem extends Component {
   _onPress = () => {
@@ -10,7 +13,7 @@ class DeckListItem extends Component {
   }
 
   render() {
-    return <Text onPress={this._onPress}>{this.props.children}</Text>
+    return <ListItem onPress={this._onPress} title={this.props.item.title} />
   }
 }
 
@@ -19,31 +22,46 @@ class Decks extends Component {
     decks: PropTypes.array.isRequired,
     navigation: PropTypes.object.isRequired
   }
-
-  static navigationOptions = ({ navigation }) => ({
-    title: 'All Decks',
-    headerRight: (
-      <Button title="+" onPress={() => navigation.navigate('NewDeck')} />
-    )
-  })
-
   _onPress = id => {
     this.props.navigation.navigate('Deck', { deckId: id })
   }
-
   renderDeckListItem = ({ item }) => {
-    return (
-      <DeckListItem onPress={this._onPress} id={item.id}>
-        {item.title}
-      </DeckListItem>
-    )
+    return <DeckListItem onPress={this._onPress} id={item.id} item={item} />
   }
 
   render() {
-    const { decks } = this.props
-    return <FlatList data={decks} renderItem={this.renderDeckListItem} />
+    const { decks, navigation } = this.props
+    return (
+      <View style={styles.container}>
+        <Header
+          outerContainerStyles={styles.header}
+          centerComponent={{ text: 'All Decks', style: { color: '#fff' } }}
+          rightComponent={{
+            icon: 'add',
+            color: '#fff',
+            underlayColor: '#324C66',
+            onPress: () => navigation.navigate('NewDeck')
+          }}
+        />
+        <List style={styles.body}>
+          <FlatList data={decks} renderItem={this.renderDeckListItem} />
+        </List>
+      </View>
+    )
   }
 }
+const styles = StyleSheet.create({
+  container: {
+    paddingTop: Constants.statusBarHeight,
+    backgroundColor: '#ecf0f1'
+  },
+  header: {
+    backgroundColor: '#324C66'
+  },
+  body: {
+    marginTop: 53
+  }
+})
 
 const mapStateToProps = state => {
   return {

@@ -1,5 +1,7 @@
 import { NEW_DECK, ADD_CARD } from '../actions'
 import { combineReducers } from 'redux'
+import { persistReducer } from 'redux-persist'
+import { AsyncStorage } from 'react-native'
 
 /* {
   deckKey: {
@@ -74,4 +76,11 @@ const rootReducer = combineReducers({
   allDecksId
 })
 
-export default rootReducer
+const config = {
+  version: '1',
+  key: 'primary',
+  storage: AsyncStorage,
+  debug: true
+}
+
+export default persistReducer(config, rootReducer)
