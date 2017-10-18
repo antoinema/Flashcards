@@ -8,11 +8,23 @@ import { Provider } from 'react-redux'
 import { StackNavigator } from 'react-navigation'
 import { PersistGate } from 'redux-persist/lib/integration/react'
 import Loading from './components/Loading'
+import CreateCard from './components/CreateCard'
+
+const DeckDetail = StackNavigator(
+  {
+    Deck: { screen: Deck },
+    NewCard: { screen: CreateCard }
+  },
+  {
+    mode: 'modal',
+    headerMode: 'none'
+  }
+)
 
 const DecksNavigator = StackNavigator(
   {
     Home: { screen: Decks },
-    Deck: { screen: Deck }
+    Deck: { screen: DeckDetail }
   },
   {
     headerMode: 'none'

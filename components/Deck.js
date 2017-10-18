@@ -41,7 +41,11 @@ class Deck extends Component {
 
           <Button large title="Start Quiz" buttonStyle={styles.button} />
 
-          <Button title="Add Card" buttonStyle={styles.button} />
+          <Button
+            title="Add Card"
+            buttonStyle={styles.button}
+            onPress={() => navigation.navigate('NewCard')}
+          />
         </ScrollView>
       </View>
     )
