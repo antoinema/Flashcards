@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, Header } from 'react-native-elements'
+import { Text, Header, Button } from 'react-native-elements'
 import { View, StyleSheet, ScrollView } from 'react-native'
 import { connect } from 'react-redux'
 import { getDeck } from '../selectors'
@@ -7,7 +7,7 @@ import { Constants } from 'expo'
 import PropTypes from 'prop-types'
 
 const TitleHeader = props => {
-  return <Text style={styles.title}>{props.title}</Text>
+  return <Text style={styles.headerTitle}>{props.title}</Text>
 }
 
 TitleHeader.propTypes = {
@@ -35,7 +35,13 @@ class Deck extends Component {
           centerComponent={<TitleHeader title={this.props.deck.title} />}
         />
         <ScrollView style={styles.body}>
-          <Text>{this.props.deck.title}</Text>
+          <Text h1 style={styles.title}>
+            {this.props.deck.title}
+          </Text>
+
+          <Button large title="Start Quiz" buttonStyle={styles.button} />
+
+          <Button title="Add Card" buttonStyle={styles.button} />
         </ScrollView>
       </View>
     )
@@ -45,7 +51,10 @@ class Deck extends Component {
 const styles = StyleSheet.create({
   container: {
     paddingTop: Constants.statusBarHeight,
-    backgroundColor: '#ecf0f1'
+    backgroundColor: '#ecf0f1',
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   header: {
     backgroundColor: '#324C66'
@@ -53,9 +62,16 @@ const styles = StyleSheet.create({
   body: {
     marginTop: 53
   },
-  title: {
+  headerTitle: {
     color: '#fff',
     fontWeight: 'bold'
+  },
+  title: {
+    paddingTop: 20,
+    paddingBottom: 40
+  },
+  button: {
+    marginTop: 15
   }
 })
 
