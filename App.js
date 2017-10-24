@@ -1,5 +1,6 @@
 import React from 'react'
 import Decks from './components/Decks'
+
 import Deck from './components/Deck'
 import CreateDeck from './components/CreateDeck'
 
@@ -9,6 +10,7 @@ import { StackNavigator } from 'react-navigation'
 import { PersistGate } from 'redux-persist/lib/integration/react'
 import Loading from './components/Loading'
 import CreateCard from './components/CreateCard'
+import Quiz from './components/Quiz'
 
 const DeckDetail = StackNavigator(
   {
@@ -24,7 +26,8 @@ const DeckDetail = StackNavigator(
 const DecksNavigator = StackNavigator(
   {
     Home: { screen: Decks },
-    Deck: { screen: DeckDetail }
+    Deck: { screen: DeckDetail },
+    Quiz: { screen: Quiz }
   },
   {
     headerMode: 'none'

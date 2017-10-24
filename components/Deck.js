@@ -5,14 +5,7 @@ import { connect } from 'react-redux'
 import { getDeck } from '../selectors'
 import { Constants } from 'expo'
 import PropTypes from 'prop-types'
-
-const TitleHeader = props => {
-  return <Text style={styles.headerTitle}>{props.title}</Text>
-}
-
-TitleHeader.propTypes = {
-  title: PropTypes.string.isRequired
-}
+import TitleHeader from './TitleHeader'
 
 class Deck extends Component {
   static propTypes = {
@@ -30,7 +23,8 @@ class Deck extends Component {
             icon: 'chevron-left',
             color: '#fff',
             underlayColor: '#324C66',
-            onPress: () => navigation.goBack()
+            //https://github.com/react-community/react-navigation/issues/1522
+            onPress: () => navigation.goBack(null)
           }}
           centerComponent={<TitleHeader title={this.props.deck.title} />}
         />
@@ -39,12 +33,23 @@ class Deck extends Component {
             {this.props.deck.title}
           </Text>
 
-          <Button large title="Start Quiz" buttonStyle={styles.button} />
+          <Button
+            large
+            title="Start Quiz"
+            buttonStyle={styles.button}
+            onPress={() =>
+              navigation.navigate('Quiz', {
+                deckId: navigation.state.params.deckId
+              })}
+          />
 
           <Button
             title="Add Card"
             buttonStyle={styles.button}
-            onPress={() => navigation.navigate('NewCard')}
+            onPress={() =>
+              navigation.navigate('NewCard', {
+                deckId: navigation.state.params.deckId
+              })}
           />
         </ScrollView>
       </View>

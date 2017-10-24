@@ -1,4 +1,4 @@
-import { NEW_DECK, ADD_CARD } from '../actions'
+import { NEW_DECK, ADD_CARD, RESET_SCORE, SUBMIT_ANSWER } from '../actions'
 import { combineReducers } from 'redux'
 import { persistReducer } from 'redux-persist'
 import { AsyncStorage } from 'react-native'
@@ -28,7 +28,7 @@ function decks(state = {}, action) {
     case NEW_DECK:
       return {
         ...state,
-        [action.deckId]: action.deck
+        [action.deckId]: { ...action.deck, cards: [] }
       }
     case ADD_CARD:
       return addCard(state, action)
@@ -70,10 +70,25 @@ function cards(state = {}, action) {
   }
 }
 
+function score(state = {}, action) {
+  switch (action.type) {
+    case SUBMIT_ANSWER:
+      return {
+        ...state,
+        [action.cardId]: action.correct
+      }
+    case RESET_SCORE:
+      return {}
+    default:
+      return state
+  }
+}
+
 const rootReducer = combineReducers({
   decks,
   cards,
-  allDecksId
+  allDecksId,
+  score
 })
 
 const config = {
