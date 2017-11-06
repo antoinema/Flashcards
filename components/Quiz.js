@@ -2,31 +2,40 @@ import React, { Component } from 'react'
 import { StyleSheet, View, Text } from 'react-native'
 import { Header } from 'react-native-elements'
 import TitleHeader from './TitleHeader'
-import Card from './Card'
+import CardStack from './CardStack'
 import { Constants } from 'expo'
 import { connect } from 'react-redux'
-import { getCardsForDeck, getScore } from '../selectors'
-import { submitAnswer } from '../actions'
+import { getCardsForDeck, getScore, getDeck } from '../selectors'
+import { submitAnswer, resetScore } from '../actions'
 import PropTypes from 'prop-types'
 
 class Quiz extends Component {
   static propTypes = {
     navigation: PropTypes.object,
     onSubmitAnswer: PropTypes.func.isRequired,
+    onResetScore: PropTypes.func.isRequired,
     cards: PropTypes.array.isRequired,
-    score: PropTypes.object.isRequired
+    score: PropTypes.object.isRequired,
+    deck: PropTypes.object.isRequired
   }
   state = { currentCardIndex: 0 }
 
-  questionAnswered = answer => {
+  questionAnswered = (cardIndex, answer) => {
     const { onSubmitAnswer, cards } = this.props
-    onSubmitAnswer(cards[this.state.currentCardIndex].key, answer)
-    this.setState({ currentCardIndex: this.state.currentCardIndex + 1 })
+    onSubmitAnswer(cards[cardIndex].key, answer)
+  }
+
+  renderNoMoreCards = () => {
+    const { score } = this.props
+    return (
+      <Text>
+        Your score is {score.correct}/{score.questionsNumber}
+      </Text>
+    )
   }
 
   render() {
-    const { navigation, cards, score } = this.props
-    const currentCard = cards[this.state.currentCardIndex]
+    const { navigation, cards, onResetScore } = this.props
     return (
       <View style={styles.container}>
         <Header
@@ -36,24 +45,23 @@ class Quiz extends Component {
             color: '#fff',
             underlayColor: '#324C66',
             //https://github.com/react-community/react-navigation/issues/1522
-            onPress: () => navigation.goBack(null)
+            onPress: () => {
+              onResetScore()
+              navigation.goBack(null)
+            }
           }}
-          // centerComponent={<TitleHeader title={this.props.deck.title} />}
-          centerComponent={<TitleHeader title="Hello" />}
+          centerComponent={<TitleHeader title={this.props.deck.title} />}
         />
 
         <View style={styles.body}>
-          {currentCard ? (
-            <Card
-              question={currentCard.question}
-              answer={currentCard.answer}
-              onCorrectAnswer={() => this.questionAnswered(true)}
-              onIncorrectAnswer={() => this.questionAnswered(false)}
-            />
+          {cards.length <= 0 ? (
+            <Text>This quiz has no questions</Text>
           ) : (
-            <Text>
-              Your score is {score.correct}/{score.questionsNumber}
-            </Text>
+            <CardStack
+              cards={cards}
+              onNoMoreCards={this.renderNoMoreCards}
+              onQuestionAnswered={this.questionAnswered}
+            />
           )}
         </View>
       </View>
@@ -78,7 +86,8 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state, ownProps) => {
   return {
     cards: getCardsForDeck(state, ownProps.navigation.state.params.deckId),
-    score: getScore(state)
+    score: getScore(state),
+    deck: getDeck(state, ownProps.navigation.state.params.deckId)
   }
 }
 
@@ -86,6 +95,9 @@ const mapDispatchToProps = dispatch => {
   return {
     onSubmitAnswer: (cardId, correct) => {
       dispatch(submitAnswer(cardId, correct))
+    },
+    onResetScore: () => {
+      dispatch(resetScore())
     }
   }
 }

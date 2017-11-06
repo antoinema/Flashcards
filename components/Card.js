@@ -88,7 +88,8 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    alignItems: 'center'
+    alignItems: 'center',
+    marginTop: 56
   },
   card: {
     padding: 15
@@ -101,7 +102,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     borderWidth: 1,
     borderRadius: 2,
-    borderColor: 'yellow',
     backgroundColor: 'grey',
     ...Platform.select({
       ios: {
@@ -114,6 +114,14 @@ const styles = StyleSheet.create({
         elevation: 1
       }
     })
+  },
+  test: {
+    left: -175,
+    top: -250,
+    width: 180,
+    height: 180,
+    backgroundColor: 'green',
+    position: 'absolute'
   },
   button: {
     borderRadius: 2,

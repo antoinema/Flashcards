@@ -32,6 +32,9 @@ class Deck extends Component {
           <Text h1 style={styles.title}>
             {this.props.deck.title}
           </Text>
+          <Text h4 style={styles.title2}>
+            ({this.props.deck.cards.length} cards)
+          </Text>
 
           <Button
             large
@@ -77,7 +80,12 @@ const styles = StyleSheet.create({
   },
   title: {
     paddingTop: 20,
-    paddingBottom: 40
+    textAlign: 'center'
+  },
+  title2: {
+    paddingTop: 5,
+    paddingBottom: 40,
+    textAlign: 'center'
   },
   button: {
     marginTop: 15
