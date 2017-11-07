@@ -115,14 +115,6 @@ const styles = StyleSheet.create({
       }
     })
   },
-  test: {
-    left: -175,
-    top: -250,
-    width: 180,
-    height: 180,
-    backgroundColor: 'green',
-    position: 'absolute'
-  },
   button: {
     borderRadius: 2,
     marginLeft: 0,

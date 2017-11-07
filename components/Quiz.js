@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { StyleSheet, View, Text } from 'react-native'
-import { Header } from 'react-native-elements'
+import { Header, Button } from 'react-native-elements'
 import TitleHeader from './TitleHeader'
 import CardStack from './CardStack'
 import { Constants } from 'expo'
@@ -25,17 +25,8 @@ class Quiz extends Component {
     onSubmitAnswer(cards[cardIndex].key, answer)
   }
 
-  renderNoMoreCards = () => {
-    const { score } = this.props
-    return (
-      <Text>
-        Your score is {score.correct}/{score.questionsNumber}
-      </Text>
-    )
-  }
-
   render() {
-    const { navigation, cards, onResetScore } = this.props
+    const { navigation, cards, onResetScore, score } = this.props
     return (
       <View style={styles.container}>
         <Header
@@ -59,8 +50,9 @@ class Quiz extends Component {
           ) : (
             <CardStack
               cards={cards}
-              onNoMoreCards={this.renderNoMoreCards}
               onQuestionAnswered={this.questionAnswered}
+              correctAnswers={score.correct}
+              resetScore={onResetScore}
             />
           )}
         </View>

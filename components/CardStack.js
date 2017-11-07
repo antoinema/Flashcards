@@ -12,8 +12,9 @@ class CardStack extends Component {
 
   static propTypes = {
     cards: PropTypes.array.isRequired,
-    onNoMoreCards: PropTypes.func.isRequired,
-    onQuestionAnswered: PropTypes.func.isRequired
+    correctAnswers: PropTypes.number.isRequired,
+    onQuestionAnswered: PropTypes.func.isRequired,
+    resetScore: PropTypes.func.isRequired
   }
 
   _goToNextCard() {
@@ -31,6 +32,12 @@ class CardStack extends Component {
 
   _animateEntrance() {
     Animated.spring(this.state.enter, { toValue: 1, friction: 8 }).start()
+  }
+
+  _resetStack = () => {
+    this.state.enter.setValue(0)
+    this.setState({ currentCardIndex: 0 })
+    this._animateEntrance()
   }
 
   _resetState = () => {
@@ -68,9 +75,26 @@ class CardStack extends Component {
         </Animated.View>
       </View>
     ) : (
-      this.props.onNoMoreCards()
+      <View>
+        <Text h2 style={styles.title}>
+          Your score is {this.props.correctAnswers}/{this.props.cards.length}
+        </Text>
+        <Button
+          title="Start again"
+          onPress={() => {
+            this.props.resetScore()
+            this._resetStack()
+          }}
+        />
+      </View>
     )
   }
 }
+const styles = StyleSheet.create({
+  title: {
+    paddingTop: 20,
+    textAlign: 'center'
+  }
+})
 
 export default CardStack
