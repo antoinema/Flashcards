@@ -47,6 +47,7 @@ const AppRoot = StackNavigator(
 
 export default class App extends React.Component {
   render() {
+    // persistStore.persistor.purge()
     return (
       <Provider store={persistStore.store}>
         <PersistGate persistor={persistStore.persistor} loading={<Loading />}>

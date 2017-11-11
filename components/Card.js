@@ -1,5 +1,12 @@
 import React, { Component } from 'react'
-import { StyleSheet, View, Easing, Text, Platform } from 'react-native'
+import {
+  StyleSheet,
+  View,
+  Easing,
+  Text,
+  Platform,
+  ScrollView
+} from 'react-native'
 import FlipView from './FlipView'
 import { Button } from 'react-native-elements'
 import PropTypes from 'prop-types'
@@ -18,7 +25,6 @@ class Card extends Component {
     return (
       <View style={styles.container}>
         <FlipView
-          style={{ flex: 1 }}
           front={this._renderFront()}
           back={this._renderBack()}
           isFlipped={this.state.isFlipped}
@@ -50,7 +56,9 @@ class Card extends Component {
     return (
       <View style={styles.face}>
         <Text style={styles.question}>{this.props.question}</Text>
-        <Text style={styles.question}>{this.props.answer} </Text>
+        <ScrollView style={{ flex: 1 }}>
+          <Text style={styles.answer}>{this.props.answer} </Text>
+        </ScrollView>
         <View>
           <Button
             buttonStyle={styles.button}
@@ -84,10 +92,16 @@ const styles = StyleSheet.create({
   question: {
     textAlign: 'center',
     color: 'white',
-    fontSize: 24
+    fontSize: 24,
+    marginBottom: 10
+  },
+  answer: {
+    textAlign: 'center',
+    color: 'white',
+    fontSize: 20,
+    marginBottom: 10
   },
   container: {
-    flex: 1,
     alignItems: 'center',
     marginTop: 56
   },
@@ -101,7 +115,7 @@ const styles = StyleSheet.create({
     alignItems: 'stretch',
     justifyContent: 'space-between',
     borderWidth: 1,
-    borderRadius: 2,
+    borderRadius: 10,
     backgroundColor: 'grey',
     ...Platform.select({
       ios: {

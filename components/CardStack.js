@@ -3,6 +3,7 @@ import React, { Component } from 'react'
 import { Button } from 'react-native-elements'
 import Card from './Card'
 import PropTypes from 'prop-types'
+import ProgressBar from 'react-native-progress/Bar'
 
 class CardStack extends Component {
   state = {
@@ -14,16 +15,19 @@ class CardStack extends Component {
     cards: PropTypes.array.isRequired,
     correctAnswers: PropTypes.number.isRequired,
     onQuestionAnswered: PropTypes.func.isRequired,
-    resetScore: PropTypes.func.isRequired
+    resetScore: PropTypes.func.isRequired,
+    onFinishedQuiz: PropTypes.func.isRequired
   }
 
   _goToNextCard() {
     const cards = this.props.cards
     const currentCardIndex = this.state.currentCardIndex
+    const nextCardIndex =
+      currentCardIndex + 1 > cards.length - 1 ? -1 : currentCardIndex + 1
     this.setState({
-      currentCardIndex:
-        currentCardIndex + 1 > cards.length - 1 ? -1 : currentCardIndex + 1
+      currentCardIndex: nextCardIndex
     })
+    nextCardIndex < 0 && this.props.onFinishedQuiz()
   }
 
   componentDidMount() {
@@ -62,7 +66,7 @@ class CardStack extends Component {
 
     const currentCard = this.props.cards[this.state.currentCardIndex]
     return this.state.currentCardIndex >= 0 ? (
-      <View>
+      <View style={styles.container}>
         <Animated.View
           style={[animatedCardStyles, { backgroundColor: this.state.person }]}
         >
@@ -73,6 +77,17 @@ class CardStack extends Component {
             onIncorrectAnswer={() => this._questionAnswered(false)}
           />
         </Animated.View>
+        <ProgressBar
+          animated
+          color="grey"
+          progress={this.state.currentCardIndex / this.props.cards.length}
+          width={300}
+          style={styles.progressBar}
+        />
+        <Text>
+          Question {this.state.currentCardIndex + 1} of{' '}
+          {this.props.cards.length}
+        </Text>
       </View>
     ) : (
       <View>
@@ -91,9 +106,15 @@ class CardStack extends Component {
   }
 }
 const styles = StyleSheet.create({
+  container: {
+    alignItems: 'center'
+  },
   title: {
     paddingTop: 20,
     textAlign: 'center'
+  },
+  progressBar: {
+    marginTop: 20
   }
 })
 

@@ -19,8 +19,9 @@ class Deck extends Component {
       <View style={styles.container}>
         <Header
           outerContainerStyles={styles.header}
+          statusBarProps={{ barStyle: 'light-content' }}
           leftComponent={{
-            icon: 'chevron-left',
+            icon: 'arrow-back',
             color: '#fff',
             underlayColor: '#324C66',
             //https://github.com/react-community/react-navigation/issues/1522
@@ -43,7 +44,8 @@ class Deck extends Component {
             onPress={() =>
               navigation.navigate('Quiz', {
                 deckId: navigation.state.params.deckId
-              })}
+              })
+            }
           />
 
           <Button
@@ -52,7 +54,8 @@ class Deck extends Component {
             onPress={() =>
               navigation.navigate('NewCard', {
                 deckId: navigation.state.params.deckId
-              })}
+              })
+            }
           />
         </ScrollView>
       </View>
@@ -71,9 +74,7 @@ const styles = StyleSheet.create({
   header: {
     backgroundColor: '#324C66'
   },
-  body: {
-    marginTop: 53
-  },
+  body: {},
   headerTitle: {
     color: '#fff',
     fontWeight: 'bold'

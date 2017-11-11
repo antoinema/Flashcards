@@ -94,7 +94,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#ecf0f1'
   },
   body: {
-    marginTop: 53
   }
 })
 const mapDispatchToProps = dispatch => {

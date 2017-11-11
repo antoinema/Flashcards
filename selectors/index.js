@@ -16,3 +16,7 @@ export const getScore = state => {
     correct: scores.filter(i => i === true).length
   }
 }
+
+export const getNotificationStatus = state => {
+  return state.notification
+}

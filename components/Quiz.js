@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { StyleSheet, View, Text } from 'react-native'
-import { Header, Button } from 'react-native-elements'
+import { Header } from 'react-native-elements'
 import TitleHeader from './TitleHeader'
 import CardStack from './CardStack'
 import { Constants } from 'expo'
@@ -8,6 +8,8 @@ import { connect } from 'react-redux'
 import { getCardsForDeck, getScore, getDeck } from '../selectors'
 import { submitAnswer, resetScore } from '../actions'
 import PropTypes from 'prop-types'
+import { clearLocalNotification, setLocalNotification } from '../helpers'
+import ProgressBar from 'react-native-progress/Bar'
 
 class Quiz extends Component {
   static propTypes = {
@@ -16,7 +18,8 @@ class Quiz extends Component {
     onResetScore: PropTypes.func.isRequired,
     cards: PropTypes.array.isRequired,
     score: PropTypes.object.isRequired,
-    deck: PropTypes.object.isRequired
+    deck: PropTypes.object.isRequired,
+    dispatch: PropTypes.func.isRequired
   }
   state = { currentCardIndex: 0 }
 
@@ -24,7 +27,10 @@ class Quiz extends Component {
     const { onSubmitAnswer, cards } = this.props
     onSubmitAnswer(cards[cardIndex].key, answer)
   }
-
+  finishedQuiz = () => {
+    clearLocalNotification(this.props.dispatch)
+    setLocalNotification(this.props.dispatch, null)
+  }
   render() {
     const { navigation, cards, onResetScore, score } = this.props
     return (
@@ -32,7 +38,7 @@ class Quiz extends Component {
         <Header
           outerContainerStyles={styles.header}
           leftComponent={{
-            icon: 'chevron-left',
+            icon: 'arrow-back',
             color: '#fff',
             underlayColor: '#324C66',
             //https://github.com/react-community/react-navigation/issues/1522
@@ -53,6 +59,7 @@ class Quiz extends Component {
               onQuestionAnswered={this.questionAnswered}
               correctAnswers={score.correct}
               resetScore={onResetScore}
+              onFinishedQuiz={this.finishedQuiz}
             />
           )}
         </View>
@@ -90,7 +97,8 @@ const mapDispatchToProps = dispatch => {
     },
     onResetScore: () => {
       dispatch(resetScore())
-    }
+    },
+    dispatch
   }
 }
 
