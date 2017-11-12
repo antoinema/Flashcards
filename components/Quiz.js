@@ -1,15 +1,19 @@
 import React, { Component } from 'react'
 import { StyleSheet, View, Text } from 'react-native'
 import { Header } from 'react-native-elements'
-import TitleHeader from './TitleHeader'
 import CardStack from './CardStack'
-import { Constants } from 'expo'
 import { connect } from 'react-redux'
 import { getCardsForDeck, getScore, getDeck } from '../selectors'
 import { submitAnswer, resetScore } from '../actions'
 import PropTypes from 'prop-types'
 import { clearLocalNotification, setLocalNotification } from '../helpers'
-import ProgressBar from 'react-native-progress/Bar'
+import {
+  mystyles,
+  statusBarStyle,
+  centerHeaderComponentStyle,
+  iconHeaderComponentStyle
+} from '../styles/styles'
+import * as colors from '../styles/colors'
 
 class Quiz extends Component {
   static propTypes = {
@@ -36,21 +40,24 @@ class Quiz extends Component {
     return (
       <View style={styles.container}>
         <Header
-          outerContainerStyles={styles.header}
+          outerContainerStyles={mystyles.header}
+          statusBarProps={statusBarStyle}
           leftComponent={{
             icon: 'arrow-back',
-            color: '#fff',
-            underlayColor: '#324C66',
+            ...iconHeaderComponentStyle,
             //https://github.com/react-community/react-navigation/issues/1522
             onPress: () => {
               onResetScore()
               navigation.goBack(null)
             }
           }}
-          centerComponent={<TitleHeader title={this.props.deck.title} />}
+          centerComponent={{
+            text: this.props.deck.title,
+            style: centerHeaderComponentStyle
+          }}
         />
 
-        <View style={styles.body}>
+        <View>
           {cards.length <= 0 ? (
             <Text>This quiz has no questions</Text>
           ) : (
@@ -70,15 +77,8 @@ class Quiz extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: Constants.statusBarHeight,
-    backgroundColor: '#ecf0f1',
+    backgroundColor: colors.backgroundColor,
     flex: 1
-  },
-  header: {
-    backgroundColor: '#324C66'
-  },
-  body: {
-    marginTop: 60
   }
 })
 

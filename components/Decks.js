@@ -4,9 +4,16 @@ import { getAllDecks, getNotificationStatus } from '../selectors'
 import { FlatList, View, StyleSheet } from 'react-native'
 import { Header } from 'react-native-elements'
 import { connect } from 'react-redux'
-import { Constants } from 'expo'
 import { List, ListItem } from 'react-native-elements'
 import { setLocalNotification } from '../helpers'
+import {
+  mystyles,
+  statusBarStyle,
+  centerHeaderComponentStyle,
+  iconHeaderComponentStyle
+} from '../styles/styles'
+
+import * as colors from '../styles/colors'
 
 class DeckListItem extends Component {
   static propTypes = {
@@ -60,19 +67,15 @@ class Decks extends Component {
     return (
       <View style={styles.container}>
         <Header
-          outerContainerStyles={styles.header}
-          statusBarProps={{
-            backgroundColor: '#ecf0f1',
-            barStyle: 'light-content'
-          }}
+          outerContainerStyles={mystyles.header}
+          statusBarProps={statusBarStyle}
           centerComponent={{
             text: 'All Decks',
-            style: { color: '#fff', fontSize: 17 }
+            style: centerHeaderComponentStyle
           }}
           rightComponent={{
             icon: 'add',
-            color: '#fff',
-            underlayColor: '#324C66',
+            ...iconHeaderComponentStyle,
             onPress: () => navigation.navigate('NewDeck')
           }}
         />
@@ -85,12 +88,7 @@ class Decks extends Component {
 }
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#ecf0f1',
-    paddingTop: Constants.statusBarHeight
-  },
-  header: {
-    height: 53,
-    backgroundColor: '#324C66'
+    backgroundColor: colors.background
   },
   body: {}
 })

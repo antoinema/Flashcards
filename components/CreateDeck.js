@@ -11,6 +11,15 @@ import { connect } from 'react-redux'
 import { addNewDeck } from '../actions'
 import { Constants } from 'expo'
 
+import {
+  mystyles,
+  statusBarStyle,
+  centerHeaderComponentStyle,
+  iconHeaderComponentStyle
+} from '../styles/styles'
+
+import * as colors from '../styles/colors'
+
 class CreateDeck extends Component {
   state = { error: false, title: '' }
 
@@ -38,20 +47,24 @@ class CreateDeck extends Component {
     return (
       <View style={styles.container}>
         <Header
+          statusBarProps={statusBarStyle}
+          outerContainerStyles={mystyles.header}
           leftComponent={{
             icon: 'cancel',
-            color: '#fff',
-            underlayColor: '#324C66',
+            ...iconHeaderComponentStyle,
+
             onPress: () => navigation.goBack()
           }}
-          centerComponent={{ text: 'New Deck', style: { color: '#fff' } }}
+          centerComponent={{
+            text: 'New Deck',
+            style: centerHeaderComponentStyle
+          }}
           rightComponent={{
             icon: 'check',
-            color: '#fff',
-            underlayColor: '#324C66',
+            ...iconHeaderComponentStyle,
+
             onPress: () => this._saveDetails()
           }}
-          backgroundColor={'#324C66'}
         />
         <View style={styles.body}>
           <FormLabel>Name</FormLabel>
@@ -70,11 +83,7 @@ class CreateDeck extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: Constants.statusBarHeight,
-    backgroundColor: '#ecf0f1'
-  },
-  body: {
-    marginTop: 53
+    backgroundColor: colors.background
   }
 })
 const mapDispatchToProps = dispatch => {

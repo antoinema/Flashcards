@@ -10,6 +10,14 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { addNewCard } from '../actions'
 import { Constants } from 'expo'
+import {
+  mystyles,
+  statusBarStyle,
+  centerHeaderComponentStyle,
+  iconHeaderComponentStyle
+} from '../styles/styles'
+
+import * as colors from '../styles/colors'
 
 class CreateCard extends Component {
   state = { error: false, title: '' }
@@ -46,17 +54,22 @@ class CreateCard extends Component {
     return (
       <View style={styles.container}>
         <Header
+          statusBarProps={statusBarStyle}
+          outerContainerStyles={mystyles.header}
           leftComponent={{
             icon: 'cancel',
-            color: '#fff',
-            underlayColor: '#324C66',
+            ...iconHeaderComponentStyle,
+
             onPress: () => navigation.goBack()
           }}
-          centerComponent={{ text: 'New Card', style: { color: '#fff' } }}
+          centerComponent={{
+            text: 'New Card',
+            style: centerHeaderComponentStyle
+          }}
           rightComponent={{
             icon: 'check',
-            color: '#fff',
-            underlayColor: '#324C66',
+            ...iconHeaderComponentStyle,
+
             onPress: () => this._saveDetails()
           }}
           backgroundColor={'#324C66'}
@@ -90,10 +103,7 @@ class CreateCard extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: Constants.statusBarHeight,
-    backgroundColor: '#ecf0f1'
-  },
-  body: {
+    backgroundColor: colors.background
   }
 })
 const mapDispatchToProps = dispatch => {
