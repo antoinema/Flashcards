@@ -2,15 +2,13 @@ import { Notifications, Permissions } from 'expo'
 import { resetNotifcation, setNotification } from './actions'
 
 export function clearLocalNotification(dispatch) {
-  console.log('clearing notification')
-
   dispatch(resetNotifcation())
   return Notifications.cancelAllScheduledNotificationsAsync
 }
 
 function createNotification() {
   return {
-    title: 'Log your stats!',
+    title: 'Answer your quiz!',
     body: '👋 don\'t forget to answer a quizz today!',
     ios: {
       sound: false

@@ -103,7 +103,12 @@ class CreateCard extends Component {
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
     backgroundColor: colors.background
+  },
+  body: {
+    marginTop: 20,
+    backgroundColor: colors.inputBackground
   }
 })
 const mapDispatchToProps = dispatch => {

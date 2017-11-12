@@ -79,7 +79,7 @@ class Decks extends Component {
             onPress: () => navigation.navigate('NewDeck')
           }}
         />
-        <List style={styles.body}>
+        <List>
           <FlatList data={decks} renderItem={this.renderDeckListItem} />
         </List>
       </View>
@@ -89,8 +89,7 @@ class Decks extends Component {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: colors.background
-  },
-  body: {}
+  }
 })
 
 const mapStateToProps = state => {

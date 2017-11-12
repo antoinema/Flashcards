@@ -8,8 +8,8 @@ Mobile flash card is relies on Expo
 
 ## Project Setup
 * clone the Project - `git clone https://github.com/antoinema/Flashcards.git`
-* install the dependencies - `npm install`
-* start the project - `npm start`
+* install the dependencies - `yarn install`
+* start the project - `yarn start`
 
 ## Development concepts
 * [Normalized state](http://redux.js.org/docs/recipes/reducers/NormalizingStateShape.html) and [Updating normalized state](http://redux.js.org/docs/recipes/reducers/UpdatingNormalizedData.html)

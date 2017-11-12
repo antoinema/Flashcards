@@ -9,7 +9,6 @@ import {
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { addNewDeck } from '../actions'
-import { Constants } from 'expo'
 
 import {
   mystyles,
@@ -67,7 +66,7 @@ class CreateDeck extends Component {
           }}
         />
         <View style={styles.body}>
-          <FormLabel>Name</FormLabel>
+          <FormLabel>Quiz title</FormLabel>
           <FormInput
             onChangeText={this.handleChangeText}
             shake={!this.state.error ? false : true}
@@ -83,7 +82,12 @@ class CreateDeck extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: colors.background
+    backgroundColor: colors.background,
+    flex: 1
+  },
+  body: {
+    marginTop: 20,
+    backgroundColor: colors.inputBackground
   }
 })
 const mapDispatchToProps = dispatch => {

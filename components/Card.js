@@ -10,6 +10,7 @@ import {
 import FlipView from './FlipView'
 import { Button } from 'react-native-elements'
 import PropTypes from 'prop-types'
+import { mystyles } from '../styles/styles'
 
 class Card extends Component {
   static propTypes = {
@@ -42,8 +43,7 @@ class Card extends Component {
       <View style={styles.face}>
         <Text style={styles.question}>{this.props.question}</Text>
         <Button
-          buttonStyle={styles.button}
-          backgroundColor="#03A9F4"
+          buttonStyle={mystyles.button}
           title="Answer"
           onPress={this._flip}
         />
@@ -61,8 +61,9 @@ class Card extends Component {
         </ScrollView>
         <View>
           <Button
-            buttonStyle={styles.button}
+            buttonStyle={mystyles.button}
             backgroundColor="green"
+            icon={{ name: 'thumb-up' }}
             title="Correct"
             onPress={() => {
               this._flip()
@@ -71,7 +72,8 @@ class Card extends Component {
           />
           <Button
             backgroundColor="red"
-            buttonStyle={styles.button}
+            buttonStyle={mystyles.button}
+            icon={{ name: 'thumb-down' }}
             title="Incorrect"
             onPress={() => {
               this._flip()

@@ -1,9 +1,10 @@
-import { StyleSheet, Text, View, Animated } from 'react-native'
+import { StyleSheet, View, Animated } from 'react-native'
 import React, { Component } from 'react'
-import { Button } from 'react-native-elements'
+import { Button, Text } from 'react-native-elements'
 import Card from './Card'
 import PropTypes from 'prop-types'
 import ProgressBar from 'react-native-progress/Bar'
+import { mystyles } from '../styles/styles'
 
 class CardStack extends Component {
   state = {
@@ -91,10 +92,14 @@ class CardStack extends Component {
       </View>
     ) : (
       <View>
-        <Text h2 style={styles.title}>
+        <Text h3 style={mystyles.title}>
+          Congrats, you finished the quiz!
+        </Text>
+        <Text h4 style={mystyles.title}>
           Your score is {this.props.correctAnswers}/{this.props.cards.length}
         </Text>
         <Button
+          style={mystyles.button}
           title="Start again"
           onPress={() => {
             this.props.resetScore()
@@ -109,12 +114,9 @@ const styles = StyleSheet.create({
   container: {
     alignItems: 'center'
   },
-  title: {
-    paddingTop: 20,
-    textAlign: 'center'
-  },
   progressBar: {
-    marginTop: 20
+    marginTop: 20,
+    marginBottom: 10
   }
 })
 
